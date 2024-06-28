@@ -23,7 +23,11 @@ class _SpalshScreenState extends State<SplashScreen>{
   @override
   void initState() {
     loginBloc = BlocProvider.of<LoginBloc>(context);
-    loginBloc!.add(LoginEvents.alreadyLogin);
+    loginBloc!
+      ..add(LoginEvents.alreadyLogin)
+      ..body = {}
+      ..loginId = 1;
+
     super.initState();
   }
 
@@ -31,6 +35,7 @@ class _SpalshScreenState extends State<SplashScreen>{
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
         builder: (BuildContext context, LoginState state) {
+
           return  Scaffold(
             backgroundColor: Colors.blue,
             appBar: AppBar(title: const Text("Splash Screen"),),

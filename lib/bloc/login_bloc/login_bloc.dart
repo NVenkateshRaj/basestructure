@@ -8,18 +8,21 @@ import 'package:network_issue_handle/routes/router.dart';
 class LoginBloc extends Bloc<LoginEvents,LoginState>{
 
   final LogInRepository logInRepo;
+  dynamic body;
+  int loginId = 0;
   bool isLoading = false;
 
   LoginBloc({required this.logInRepo}): super(LogInInitState()){
     on<LoginEvents>((events,emit) async{
       if(events == LoginEvents.alreadyLogin){
         await checkLoginDetails();
-      }
-      if(events == LoginEvents.loginButtonTap){
+      } else if(events == LoginEvents.loginButtonTap){
         await loginButtonTapped(emit);
       }
-      if(events == LoginEvents.registerButtonTap){
+      else if(events == LoginEvents.registerButtonTap){
         await registerButtonTapped(emit);
+      }else{
+
       }
     });
   }
@@ -32,7 +35,9 @@ class LoginBloc extends Bloc<LoginEvents,LoginState>{
 
   loginButtonTapped(Emitter<LoginState> emit)async{}
 
-  registerButtonTapped(Emitter<LoginState> emit)async{}
+  registerButtonTapped(Emitter<LoginState> emit)async{
+
+  }
 
 
 }
