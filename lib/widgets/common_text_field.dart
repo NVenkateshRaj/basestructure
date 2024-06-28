@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:network_issue_handle/constants/colors.dart';
 import 'package:network_issue_handle/constants/styles.dart';
+import 'package:searchfield/searchfield.dart';
 
 class CommonTextField extends StatelessWidget{
   final String? textFieldTitle;
@@ -22,6 +23,8 @@ class CommonTextField extends StatelessWidget{
   final bool isAlphaNumeric;
   final int maxLength;
   final bool isReadOnly;
+  final bool isSearchField;
+  final List<String>? suggestions;
 
   const CommonTextField({
     super.key,
@@ -40,6 +43,8 @@ class CommonTextField extends StatelessWidget{
     this.isAlphaNumeric = false,
     this.maxLength = 15,
     this.isReadOnly = false,
+    this.isSearchField = false,
+    this.suggestions,
   });
 
 
@@ -66,7 +71,7 @@ class CommonTextField extends StatelessWidget{
       children: [
         Text(textFieldTitle!,style: AppTextStyle.bodyRegular,),
         SizedBox(height: 3.h,),
-        TextFormField(
+        !isSearchField ? TextFormField(
           controller: controller,
           keyboardType: isNumberPad|| isDecimalPad ? TextInputType.number :  TextInputType.name,
           obscureText: obscureText,
@@ -101,6 +106,39 @@ class CommonTextField extends StatelessWidget{
           validator: validator!= null ? (val) => validator!.call(val!) : null,
           onChanged: (val)=> onChanged.call(val),
           onFieldSubmitted: (val)=> onSubmitted.call(val),
+        ) : SearchField(
+          hint: hintText,
+          searchStyle: AppTextStyle.bodyRegular,
+          suggestions: suggestions!
+              .map(SearchFieldListItem<String>.new)
+              .toList(),
+          suggestionState: Suggestion.expand,
+          inputFormatters: inputFormatList,
+          suggestionAction: SuggestionAction.next,
+          suggestionStyle: AppTextStyle.bodyRegular,
+          searchInputDecoration: InputDecoration(
+              hintStyle: AppTextStyle.hintTextStyle,
+              hintText: hintText,
+              suffixIcon: const Icon(Icons.search),
+              border:OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: const BorderSide(color: AppColor.borderColor)
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: const BorderSide(color: AppColor.borderColor)
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: const BorderSide(color: AppColor.borderColor)
+              ),
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: const BorderSide(color: AppColor.redColor)
+              ),
+              counterText: ""
+          ),
+          validator: validator!= null ? (val) => validator!.call(val!) : null,
         )
       ],
     );
