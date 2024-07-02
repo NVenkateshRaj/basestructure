@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:network_issue_handle/constants/colors.dart';
 import 'package:network_issue_handle/constants/styles.dart';
 
@@ -12,6 +13,7 @@ class CommonButton extends StatelessWidget{
   final TextStyle? textStyle;
   final Function(bool value)? onHover;
   final VoidCallback? longPress;
+  final List<BoxShadow>? boxShadow;
 
   const CommonButton({
     super.key,
@@ -22,7 +24,8 @@ class CommonButton extends StatelessWidget{
     this.isOutLine = false,
     this.textStyle,
     this.onHover,
-    this.longPress
+    this.longPress,
+    this.boxShadow,
   });
 
   @override
@@ -30,7 +33,7 @@ class CommonButton extends StatelessWidget{
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        boxShadow: [
+        boxShadow: boxShadow ?? [
           BoxShadow(
             color: AppColor.buttonWithOpacity.withOpacity(0.1),
             spreadRadius: 0,
@@ -46,11 +49,11 @@ class CommonButton extends StatelessWidget{
         onHover:onHover!=null ? (hover)=>  onHover!.call(hover) : null,
         onLongPress: longPress!=null ? ()=> longPress!() : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColor.primary,
+          backgroundColor: buttonColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(
-              color: AppColor.primary,
+            borderRadius: BorderRadius.circular(8.sp),
+            side:  BorderSide(
+              color: borderColor,
               width: 1.0,
             ),
           ),
